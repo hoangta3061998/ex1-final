@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="tree.css" />
+    <script language="javascript" src="libs/angular.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="header-icon">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+      <div class="main">
+        <div class="sidebar">
+          <div class="sidebar-icon"></div>
+          <div class="sidebar-content" ng-app="myApp" ng-controller="MainController">
+            <div class="sidebar-content-header">
+                <div class="perimetre">
+                  <a>Perimetre</a>
+                </div>
+                <div class="minimize-icon">
+                    <a>-</a>
+                </div>
+            </div>
+            <div class="sidebar-main">
+                <div><a class="filtres">Filtres</a></div>
+                <div class="addBtn"><a>+</a></div>
+                <input type="text" placeholder="Enter search" ng-model="searchString">
+                <ul class="tree">
+                  <organisation-tree children="tree"></organisation-tree>
+              </ul>
+              
+              
+            
+            </div>
+          </div>
+        </div>
+        <div class="content"></div>
+      </div>
+    </div>
+    <script src="app.js"></script>
+    <script src="controllers/MainController.js"></script>
+    <script src="services/MyService.js"></script>
+    <script src="directives/TreeDirectives.js"></script>
+  </body>
+</html>
