@@ -885,7 +885,8 @@
               },
               "name": "testB"
             }
-          ]
+          ],
+          "organisation": []
         },
         "name": "Indéfini"
       }

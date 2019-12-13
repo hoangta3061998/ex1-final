@@ -53,40 +53,78 @@ app.directive("organisation", function($compile) {
           }
         };
         //Here we are marking check/un-check all the nodes.
+
         $scope.checkNode = function(node) {
           node.checked = !node.checked;
           console.log("check organisation");
+          console.log($scope.node);
+          
+          function checkParent(){
+            console.log('wtf');
+            try{
+            let parent = $scope.$parent.tree;
+            console.log(parent);
+            let site;
+            if (
+              parent.children.site.length > 0 &&
+              parent.children.organisation.length === 0
+            ) {
+              site = parent.children.site.filter(element => {
+                return element.checked === true;
+              });
+              if (site.length === parent.children.site.length) {
+                console.log("ok");
+                parent.checked = true;
+              } else {
+                console.log("not yet");
+                parent.checked = false;
+              }
+            } else if (
+              parent.children.site.length > 0 &&
+              parent.children.organisation.length > 0
+            ) {
+              let siteL = parent.children.site.filter(element => {
+                return element.checked === true;
+              });
+              let orgL = parent.children.organisation.filter(element => {
+                return element.checked === true;
+              });
+              if (
+                siteL.length === parent.children.site.length &&
+                orgL.length === parent.children.organisation.length
+              ) {
+                console.log("OK");
+                parent.checked = true;
+              } else {
+                console.log("NOT YET");
+                parent.checked = false;
+              }
+            }
+          } catch(err){
+            console.log(err);
+          }
+          }
+          checkParent();
           function checkChildren(c) {
+            console.log('cc');
             if (c.children.site) {
               angular.forEach(c.children.site, function(c) {
                 c.checked = node.checked;
               });
             }
             if (c.children.organisation.length > 0) {
-              angular.forEach(c.children.organisation, c => {
-                c.checked = node.checked;
-                if (c.children.site) {
-                  c.children.site.forEach(element => {
-                    element.checked = node.checked;
-                  });
-                }
-                if (c.children.organisation.length > 0) {
-                  c.children.organisation.forEach(c => {
-                    c.checked = node.checked;
-                    if (c.children.site) {
-                      c.children.site.forEach(c => {
-                        c.checked = node.checked;
-                      });
-                    }
-                  });
-                }
+              c.children.organisation.forEach(element => {
+                element.checked = node.checked;
+                checkChildren(element);
               });
             }
           }
+  
+          
 
           checkChildren(node);
         };
-        
+
         $scope.countSite = function(node) {
           function count(item) {
             try {
@@ -130,9 +168,9 @@ app.directive("site", function($compile) {
     restrict: "E",
     replace: true,
     templateUrl: "templates/site.html",
-    scope: true,
+
     link: function(scope, element) {
-      console.log(scope.$parent.$parent.tree);
+      
       // here we are checking that if current node has children then compiling/rendering children
       if (
         scope.node &&
@@ -169,22 +207,49 @@ app.directive("site", function($compile) {
         $scope.checkNode = function(node) {
           node.checked = !node.checked;
           console.log("check site");
-          console.log($scope.$parent.$parent.tree);
-          
-            let parent = $scope.$parent.$parent.tree;
+          console.log($scope.$parent.tree);
+          function checkParent() {
+            let parent = $scope.$parent.tree;
             console.log(parent);
-            let test;
-            test = parent.children.site.filter(element => {
-              return element.checked === true;
-            });
-            if (test.length === parent.children.site.length) {
-              console.log("OK");
-              parent.checked = true;
-            } else {
-              console.log("not yet");
-              parent.checked = false;
+            let site;
+            if (
+              parent.children.site.length > 0 &&
+              parent.children.organisation.length === 0
+            ) {
+              site = parent.children.site.filter(element => {
+                return element.checked === true;
+              });
+              if (site.length === parent.children.site.length) {
+                console.log("ok");
+                parent.checked = true;
+              } else {
+                console.log("not yet");
+                parent.checked = false;
+              }
+            } else if (
+              parent.children.site.length > 0 &&
+              parent.children.organisation.length > 0
+            ) {
+              let siteL = parent.children.site.filter(element => {
+                return element.checked === true;
+              });
+              let orgL = parent.children.organisation.filter(element => {
+                return element.checked === true;
+              });
+              if (
+                siteL.length === parent.children.site.length &&
+                orgL.length === parent.children.organisation.length
+              ) {
+                console.log("OK");
+                parent.checked = true;
+              } else {
+                console.log("NOT YET");
+                parent.checked = false;
+              }
             }
-          
+          }
+          checkParent();
+
           function checkChildren(c) {
             if (c.children.site) {
               angular.forEach(c.children.site, function(c) {
@@ -192,29 +257,13 @@ app.directive("site", function($compile) {
               });
             }
             if (c.children.organisation.length > 0) {
-              angular.forEach(c.children.organisation, c => {
-                c.checked = node.checked;
-                if (c.children.site) {
-                  c.children.site.forEach(element => {
-                    element.checked = node.checked;
-                  });
-                }
-                if (c.children.organisation.length > 0) {
-                  c.children.organisation.forEach(c => {
-                    c.checked = node.checked;
-                    if (c.children.site) {
-                      c.children.site.forEach(c => {
-                        c.checked = node.checked;
-                      });
-                    }
-                  });
-                }
+              c.children.organisation.forEach(element => {
+                checkChildren(element);
               });
             }
           }
 
           checkChildren(node);
-          
         };
       }
     ]
