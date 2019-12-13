@@ -1,7 +1,7 @@
 app.directive("organisationTree", function() {
   return {
     template:
-      '<organisation ng-repeat="node in tree.children.organisation | limitTo: itemsLimit()"></organisation><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">...</a> ',
+      '<organisation ng-repeat="node in tree.children.organisation | limitTo: itemsLimit()"></organisation><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()" class="loadBtn">...</a> ',
     replace: false,
     restrict: "E",
     scope: {
@@ -168,7 +168,7 @@ app.directive("organisation", function($compile) {
 });
 app.directive("siteTree", function() {
   return {
-    template: '<site ng-repeat="node in tree.children.site | limitTo: itemsLimit()"></site><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">...</a> ',
+    template: '<site ng-repeat="node in tree.children.site | limitTo: itemsLimit()"></site><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()" class="loadBtn">...</a> ',
     replace: false,
     restrict: "E",
     scope: {
