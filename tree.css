@@ -6,6 +6,6 @@ ul.tree > li {
     margin: 10px;
 }
 
-ul.tree > li > span {
+ul.tree  li  span {
     cursor: pointer;
 }

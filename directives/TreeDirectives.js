@@ -1,12 +1,28 @@
 app.directive("organisationTree", function() {
   return {
     template:
-      '<organisation ng-repeat="node in tree.children.organisation"></organisation>',
-    replace: true,
+      '<organisation ng-repeat="node in tree.children.organisation | limitTo: itemsLimit()"></organisation><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">...</a> ',
+    replace: false,
     restrict: "E",
     scope: {
       tree: "=children"
-    }
+    },
+    controller: [
+      '$scope',
+      function($scope) {
+        var pagesShown = 1;
+        var pageSize = 2;
+        $scope.itemsLimit = function(){
+          return pageSize * pagesShown;
+        };
+        $scope.hasMoreItemsToShow = function() {
+          return pagesShown < ($scope.tree.children.organisation.length / pageSize);
+        };
+        $scope.showMoreItems = function() {
+          pagesShown = pagesShown + 1;         
+      };
+      }
+    ]
   };
 });
 app.directive("organisation", function($compile) {
@@ -152,15 +168,28 @@ app.directive("organisation", function($compile) {
 });
 app.directive("siteTree", function() {
   return {
-    template: '<site ng-repeat="node in tree.children.site"></site>',
-    replace: true,
+    template: '<site ng-repeat="node in tree.children.site | limitTo: itemsLimit()"></site><a ng-show="hasMoreItemsToShow()" ng-click="showMoreItems()">...</a> ',
+    replace: false,
     restrict: "E",
     scope: {
       tree: "=children"
     },
-    link: function(scope, element) {
-      console.log(scope.tree);
-    }
+    controller: [
+      '$scope',
+      function($scope) {
+        var pagesShown = 1;
+        var pageSize = 2;
+        $scope.itemsLimit = function(){
+          return pageSize * pagesShown;
+        };
+        $scope.hasMoreItemsToShow = function() {
+          return pagesShown < ($scope.tree.children.site.length / pageSize);
+        };
+        $scope.showMoreItems = function() {
+          pagesShown = pagesShown + 1;         
+      };
+      }
+    ]
   };
 });
 app.directive("site", function($compile) {

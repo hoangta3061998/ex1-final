@@ -30,7 +30,7 @@
             <div class="sidebar-main">
                 <div><a class="filtres">Filtres</a></div>
                 <div class="addBtn"><a>+</a></div>
-                <input type="text" placeholder="Enter search" ng-model="searchString">
+                <form ng-submit="alert()"><input type="text" placeholder="Enter search" ng-model="searchString"></form>
                 <ul class="tree">
                   <organisation-tree children="tree"></organisation-tree>
               </ul>

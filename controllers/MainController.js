@@ -6,6 +6,9 @@ app.controller("MainController", [
       $scope.tree = data;
       
     });
+    $scope.alert = function(){
+      alert($scope.searchString);
+    }
     
     
    
